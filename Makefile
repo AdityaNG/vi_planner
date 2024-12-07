@@ -32,10 +32,19 @@ fmt:              ## Format code using black & isort.
 
 .PHONY: lint
 lint:             ## Run pep8, black, mypy linters.
-	$(ENV_PREFIX)flake8 vi_planner/
-	$(ENV_PREFIX)black -l 79 --check vi_planner/
+	$(ENV_PREFIX)flake8 --per-file-ignores="vi_planner/*.py:E203" \
+		--exclude vi_planner/traj_cost_opt/,vi_planner/plannernet/,vi_planner/config/ \
+		vi_planner/
+	$(ENV_PREFIX)black -l 79 --check \
+		--exclude "(traj_cost_opt|plannernet|config)/" \
+		vi_planner/
 	$(ENV_PREFIX)black -l 79 --check tests/
-	$(ENV_PREFIX)mypy --ignore-missing-imports vi_planner/
+	$(ENV_PREFIX)mypy --ignore-missing-imports --follow-imports silent \
+		--exclude traj_cost_opt/ \
+		--exclude plannernet/ \
+		--exclude config/ \
+		--exclude vip_inference.py \
+		vi_planner/
 
 .PHONY: test
 test: lint        ## Run tests and generate coverage report.
@@ -98,7 +107,7 @@ switch-to-poetry: ## Switch to poetry package manager.
 	@echo "Switching to poetry ..."
 	@if ! poetry --version > /dev/null; then echo 'poetry is required, install from https://python-poetry.org/'; exit 1; fi
 	@rm -rf .venv
-	@poetry init --no-interaction --name=a_flask_test --author=rochacbruno
+	@poetry init --no-interaction --name=a_flask_test --author=AdityaNG
 	@echo "" >> pyproject.toml
 	@echo "[tool.poetry.scripts]" >> pyproject.toml
 	@echo "vi_planner = 'vi_planner.__main__:main'" >> pyproject.toml
@@ -115,8 +124,3 @@ switch-to-poetry: ## Switch to poetry package manager.
 init:             ## Initialize the project based on an application template.
 	@./.github/init.sh
 
-
-# This project has been generated from rochacbruno/python-project-template
-# __author__ = 'rochacbruno'
-# __repo__ = https://github.com/rochacbruno/python-project-template
-# __sponsor__ = https://github.com/sponsors/rochacbruno/

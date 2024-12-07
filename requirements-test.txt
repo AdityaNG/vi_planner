@@ -1,4 +1,4 @@
-# These requirements are for development and testing only, not for production.
+# This requirements are for development and testing only, not for production.
 pytest
 coverage
 flake8
@@ -8,3 +8,6 @@ pytest-cov
 mypy
 gitchangelog
 mkdocs
+lark
+types-setuptools
+types-PyYAML

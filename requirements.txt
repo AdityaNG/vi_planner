@@ -1,5 +1,11 @@
-# This template is a low-dependency template. 
-# By default there is no requirements added here.
-# Add the requirements you need to this file.
-# or run `make init` to create this file automatically based on the template.
-# You can also run `make switch-to-poetry` to use the poetry package manager.
+torch -i https://download.pytorch.org/whl/cu118
+torchvision -i https://download.pytorch.org/whl/cu118
+torchaudio -i https://download.pytorch.org/whl/cu118
+platformdirs
+pillow
+opencv-python
+PyYAML
+transformers
+gdown
+scipy
+accelerate>=0.26.0
